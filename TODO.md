@@ -1,0 +1,15 @@
+- [ ] 4-2
+- [ ] 6-2
+- [ ] 5-1
+- roster of 6
+- roster of 7
+- roster of 8
+- roster of 9
+- roster of 10
+- swing left
+- swing right
+- pinch left seam
+- pinch right seam
+- setter selection by ranking the on court six
+- middle selection by ranking the on court six
+- outside slection by ranking the on court six
