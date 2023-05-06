@@ -1,4 +1,5 @@
 - [ ] 4-2
+- [ ] 4-2i
 - [ ] 6-2
 - [ ] 5-1
 - roster of 6
@@ -6,6 +7,8 @@
 - roster of 8
 - roster of 9
 - roster of 10
+- roster of 5
+- roster of 4
 - swing left
 - swing right
 - pinch left seam
@@ -13,3 +16,5 @@
 - setter selection by ranking the on court six
 - middle selection by ranking the on court six
 - outside slection by ranking the on court six
+- ascii visualizations
+- discourage variance (i.e. prefer simpler offenses, simpler player roles)
