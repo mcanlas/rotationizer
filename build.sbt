@@ -4,7 +4,9 @@ lazy val `rotationizer` =
     .aggregate(core, solver, demo)
 
 lazy val core =
-  module("core").withTesting
+  module("core")
+    .withEffectMonad
+    .withTesting
 
 lazy val solver =
   module("solver").withTesting
