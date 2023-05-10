@@ -14,6 +14,14 @@ sealed trait Rotation:
   def positionRanks: NonEmptyList[Int]
 
 object Rotation:
+  def cycles[A](ranks: NonEmptyList[Int], indices: NonEmptyList[A]): NonEmptyList[NonEmptyList[A]] =
+    NonEmptyList.one {
+      indices
+        .zip(ranks)
+        .sortBy(_._2)
+        .map(_._1)
+    }
+
   def courts(rotation: Rotation): NonEmptyList[Court[Int]] =
     rotation match
       case Rotation6(_, _) =>
