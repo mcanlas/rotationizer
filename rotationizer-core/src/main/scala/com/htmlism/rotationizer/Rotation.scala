@@ -24,22 +24,21 @@ object Rotation:
         .map(_._1)
 
     xsSorted
-      .toList
-      .indices
-      .map { i =>
-        cycleFromOffset(xsSorted, i)
+      .asList {
+        _.indices
+          .map { i =>
+            cycleFromOffset(xsSorted, i)
+          }
+          .toList
       }
-      .toList
-      .pipe(NonEmptyList.fromListUnsafe)
 
   def cycleFromOffset[A](xs: NonEmptyList[A], offset: Int): NonEmptyList[A] =
-    val ys =
-      xs.toList
+    xs.asList { ys =>
+      val (left, right) =
+        ys.splitAt(offset)
 
-    val (left, right) =
-      ys.splitAt(offset)
-
-    NonEmptyList.fromListUnsafe(left ::: right)
+      left ::: right
+    }
 
   def courts(rotation: Rotation): NonEmptyList[Court[Int]] =
     rotation match
