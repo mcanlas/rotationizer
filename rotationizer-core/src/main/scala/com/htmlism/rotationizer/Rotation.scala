@@ -46,9 +46,26 @@ object Rotation:
         cycles(xs, (0 until xs.length).toList.pipe(NonEmptyList.fromListUnsafe))
           .map(cy => Court(cy, Nil, Nil))
 
-      case Rotation7(xs, _, _) =>
+      case Rotation7(xs, _, mod) =>
         cycles(xs, (0 until xs.length).toList.pipe(NonEmptyList.fromListUnsafe))
-          .map(cy => Court(cy, Nil, Nil))
+          .map { cy =>
+            mod match
+              case Rotation7.OffCourtModifier.OutOnServerSide =>
+                val onCourt =
+                  cy.asList { xs =>
+                    xs(0) :: xs.slice(2, xs.length)
+                  }
+
+                Court(onCourt, List(cy.toList(1)), Nil)
+
+              case Rotation7.OffCourtModifier.OutOnHitterSide =>
+                val onCourt =
+                  cy.asList { xs =>
+                    xs.slice(0, 4) ::: xs.slice(5, 7)
+                  }
+
+                Court(onCourt, Nil, List(cy.toList(4)))
+          }
 
   case class Rotation6(
       cycleRanks: NonEmptyList[Int],

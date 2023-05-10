@@ -3,6 +3,8 @@ package com.htmlism.rotationizer
 import cats.data.*
 
 case class Court[A](xs: NonEmptyList[A], serverSideOuts: List[A], hitterSideOuts: List[A]):
+  assert(xs.length == 6)
+
   private lazy val xsl =
     xs.toList
 
