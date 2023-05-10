@@ -39,11 +39,11 @@ object Rotation:
       case OutOnServerSide
       case OutOnHitterSide
 
-      given RandomInstance[Rotation7] with
-        def reader: Reader[Random, Rotation7] =
-          (
-            RandomInstance.ranks(7),
-            RandomInstance.ranks(7),
-            RandomInstance.oneOf(OutOnServerSide, OutOnHitterSide)
-          )
-            .mapN(Rotation7.apply)
+    given RandomInstance[Rotation7] with
+      def reader: Reader[Random, Rotation7] =
+        (
+          RandomInstance.ranks(7),
+          RandomInstance.ranks(7),
+          RandomInstance.oneOf(OutOnServerSide, OutOnHitterSide)
+        )
+          .mapN(Rotation7.apply)
