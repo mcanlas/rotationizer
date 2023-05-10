@@ -5,7 +5,7 @@ import scala.util.Random
 import cats.data.*
 
 trait RandomInstance[A]:
-  def reader: Reader[Random, A]
+  def fromRng: Reader[Random, A]
 
 object RandomInstance:
   def ranks(n: Int): Reader[Random, NonEmptyList[Int]] =
