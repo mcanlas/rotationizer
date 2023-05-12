@@ -79,7 +79,29 @@ object Rotation:
                 Court(onCourt, Nil, List(cy.toList(4)))
           }
 
+      case Rotation10(xs, _) =>
+        val cycleIndices =
+          (0 until xs.length)
+            .map(CycleIndex(_))
+            .toList
+            .pipe(NonEmptyList.fromListUnsafe)
+
+        cycles(xs, cycleIndices)
+          .map { cy =>
+            val onCourt =
+              cy.asList { xs =>
+                (xs(0) :: xs.slice(3, 6)) ::: xs.slice(8, 10)
+              }
+
+            Court(onCourt, cy.toList.slice(1, 3), cy.toList.slice(6, 8))
+          }
+
   case class Rotation6(
+      cycleRanks: NonEmptyList[Int],
+      positionRanks: NonEmptyList[Int]
+  ) extends Rotation
+
+  case class Rotation10(
       cycleRanks: NonEmptyList[Int],
       positionRanks: NonEmptyList[Int]
   ) extends Rotation
@@ -94,6 +116,18 @@ object Rotation:
           .mapN(Rotation6.apply)
 
     given Show[Rotation6] =
+      Show.fromToString
+
+  object Rotation10:
+    given RandomInstance[Rotation10] with
+      def fromRng: Reader[Random, Rotation10] =
+        (
+          RandomInstance.ranks(10),
+          RandomInstance.ranks(10)
+        )
+          .mapN(Rotation10.apply)
+
+    given Show[Rotation10] =
       Show.fromToString
 
   case class Rotation7(

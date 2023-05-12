@@ -32,3 +32,16 @@ object RotationSuite extends SimpleIOSuite with Checkers:
       numCyclesEqualsRosterSize
     }
   }
+
+  test("A rotation 10 generates 10 cycles") {
+    forall { (r: Rotation.Rotation10) =>
+      val courts =
+        Rotation
+          .courts(r)
+
+      val numCyclesEqualsRosterSize =
+        expect.eql(10, courts.length)
+
+      numCyclesEqualsRosterSize
+    }
+  }

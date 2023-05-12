@@ -18,3 +18,11 @@ package object gen:
         .map(scala.util.Random(_))
         .map(implicitly[RandomInstance[Rotation.Rotation7]].fromRng(_))
     }
+
+  given Arbitrary[Rotation.Rotation10] =
+    Arbitrary {
+      Arbitrary
+        .arbitrary[Int]
+        .map(scala.util.Random(_))
+        .map(implicitly[RandomInstance[Rotation.Rotation10]].fromRng(_))
+    }

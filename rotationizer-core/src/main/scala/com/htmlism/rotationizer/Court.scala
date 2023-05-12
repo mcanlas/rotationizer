@@ -3,7 +3,7 @@ package com.htmlism.rotationizer
 import cats.data.*
 
 case class Court[A](xs: NonEmptyList[A], serverSideOuts: List[A], hitterSideOuts: List[A]):
-  assert(xs.length == 6)
+  assert(xs.length == 6, s"total number of players should be six, but got ${xs.length}")
 
   private lazy val xsl =
     xs.toList
