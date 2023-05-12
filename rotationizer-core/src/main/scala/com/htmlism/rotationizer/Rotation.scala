@@ -40,14 +40,26 @@ object Rotation:
       left ::: right
     }
 
-  def courts(rotation: Rotation): NonEmptyList[Court[Int]] =
+  def courts(rotation: Rotation): NonEmptyList[Court[CycleIndex]] =
     rotation match
       case Rotation6(xs, _) =>
-        cycles(xs, (0 until xs.length).toList.pipe(NonEmptyList.fromListUnsafe))
+        val cycleIndices =
+          (0 until xs.length)
+            .map(CycleIndex(_))
+            .toList
+            .pipe(NonEmptyList.fromListUnsafe)
+
+        cycles(xs, cycleIndices)
           .map(cy => Court(cy, Nil, Nil))
 
       case Rotation7(xs, _, mod) =>
-        cycles(xs, (0 until xs.length).toList.pipe(NonEmptyList.fromListUnsafe))
+        val cycleIndices =
+          (0 until xs.length)
+            .map(CycleIndex(_))
+            .toList
+            .pipe(NonEmptyList.fromListUnsafe)
+
+        cycles(xs, cycleIndices)
           .map { cy =>
             mod match
               case Rotation7.OffCourtModifier.OutOnServerSide =>
