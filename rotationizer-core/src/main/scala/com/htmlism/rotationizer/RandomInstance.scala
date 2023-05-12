@@ -8,9 +8,9 @@ trait RandomInstance[A]:
   def fromRng: Reader[Random, A]
 
 object RandomInstance:
-  def ranks(n: Int): Reader[Random, NonEmptyList[Int]] =
+  def ranks(n: Int): Reader[Random, NonEmptyVector[Int]] =
     Reader { rng =>
-      NonEmptyList.fromListUnsafe(List.fill(n)(rng.nextInt))
+      NonEmptyVector.fromVectorUnsafe(Vector.fill(n)(rng.nextInt))
     }
 
   def oneOf[A](xs: A*): Reader[Random, A] =

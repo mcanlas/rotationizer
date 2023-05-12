@@ -11,36 +11,36 @@ import com.htmlism.rotationizer.Rotation.Rotation7.OffCourtModifier.OutOnHitterS
 import com.htmlism.rotationizer.Rotation.Rotation7.OffCourtModifier.OutOnServerSide
 
 sealed trait Rotation:
-  def cycleRanks: NonEmptyList[Int]
+  def cycleRanks: NonEmptyVector[Int]
 
-  def positionRanks: NonEmptyList[Int]
+  def positionRanks: NonEmptyVector[Int]
 
 object Rotation:
-  def cycles[A](ranks: NonEmptyList[Int], indices: NonEmptyList[A]): NonEmptyList[NonEmptyList[A]] =
+  def cycles[A](ranks: NonEmptyVector[Int], indices: NonEmptyList[A]): NonEmptyVector[NonEmptyVector[A]] =
     val xsSorted =
       indices
-        .zip(ranks)
+        .toNev
+        .zipWith(ranks)(_ -> _)
         .sortBy(_._2)
         .map(_._1)
 
     xsSorted
-      .asList {
-        _.indices
-          .map { i =>
-            cycleFromOffset(xsSorted, i)
-          }
-          .toList
-      }
+      .zipWithIndex
+      .map(_._2)
+      .map(cycleFromOffset(xsSorted, _))
 
-  def cycleFromOffset[A](xs: NonEmptyList[A], offset: Int): NonEmptyList[A] =
-    xs.asList { ys =>
-      val (left, right) =
-        ys.splitAt(offset)
+  def cycleFromOffset[A](xs: NonEmptyVector[A], offset: Int): NonEmptyVector[A] =
+    val xsl =
+      xs.toList
 
-      left ::: right
-    }
+    val (left, right) =
+      xsl.splitAt(offset)
 
-  def courts(rotation: Rotation): NonEmptyList[Court[CycleIndex]] =
+    (left ::: right)
+      .toVector
+      .pipe(NonEmptyVector.fromVectorUnsafe)
+
+  def courts(rotation: Rotation): NonEmptyVector[Court[CycleIndex]] =
     rotation match
       case Rotation6(xs, _) =>
         val cycleIndices =
@@ -63,20 +63,24 @@ object Rotation:
           .map { cy =>
             mod match
               case Rotation7.OffCourtModifier.OutOnServerSide =>
+                val xs =
+                  cy.toVector
+
                 val onCourt =
-                  cy.asList { xs =>
-                    xs(0) :: xs.slice(2, xs.length)
-                  }
+                  (xs(0) +: xs.slice(2, xs.length))
+                    .pipe(NonEmptyVector.fromVectorUnsafe)
 
                 Court(onCourt, List(cy.toList(1)), Nil)
 
               case Rotation7.OffCourtModifier.OutOnHitterSide =>
-                val onCourt =
-                  cy.asList { xs =>
-                    xs.slice(0, 4) ::: xs.slice(5, 7)
-                  }
+                val xs =
+                  cy.toVector
 
-                Court(onCourt, Nil, List(cy.toList(4)))
+                val onCourt =
+                  (xs.slice(0, 4) concat xs.slice(5, 7))
+                    .pipe(NonEmptyVector.fromVectorUnsafe)
+
+                Court(onCourt, Nil, List(xs(4)))
           }
 
       case Rotation10(xs, _) =>
@@ -88,22 +92,24 @@ object Rotation:
 
         cycles(xs, cycleIndices)
           .map { cy =>
+            val xs =
+              cy.toVector
+
             val onCourt =
-              cy.asList { xs =>
-                (xs(0) :: xs.slice(3, 6)) ::: xs.slice(8, 10)
-              }
+              ((xs(0) +: xs.slice(3, 6)) concat xs.slice(8, 10))
+                .pipe(NonEmptyVector.fromVectorUnsafe)
 
             Court(onCourt, cy.toList.slice(1, 3), cy.toList.slice(6, 8))
           }
 
   case class Rotation6(
-      cycleRanks: NonEmptyList[Int],
-      positionRanks: NonEmptyList[Int]
+      cycleRanks: NonEmptyVector[Int],
+      positionRanks: NonEmptyVector[Int]
   ) extends Rotation
 
   case class Rotation10(
-      cycleRanks: NonEmptyList[Int],
-      positionRanks: NonEmptyList[Int]
+      cycleRanks: NonEmptyVector[Int],
+      positionRanks: NonEmptyVector[Int]
   ) extends Rotation
 
   object Rotation6:
@@ -131,8 +137,8 @@ object Rotation:
       Show.fromToString
 
   case class Rotation7(
-      cycleRanks: NonEmptyList[Int],
-      positionRanks: NonEmptyList[Int],
+      cycleRanks: NonEmptyVector[Int],
+      positionRanks: NonEmptyVector[Int],
       offCourtModifier: Rotation7.OffCourtModifier
   ) extends Rotation
 
