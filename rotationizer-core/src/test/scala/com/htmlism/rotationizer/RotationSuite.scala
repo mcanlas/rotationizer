@@ -55,10 +55,16 @@ object RotationSuite extends SimpleIOSuite with Checkers:
         Rotation
           .courts(r)
 
+      val positionZeroRotates =
+        expect.same(CycleIndex(0), courts.getUnsafe(0).position1) and
+          expect.same(CycleIndex(0), courts.getUnsafe(1).position6) and
+          expect.same(CycleIndex(0), courts.getUnsafe(2).position5)
+
       val numCyclesEqualsRosterSize =
         expect.eql(7, courts.length)
 
-      numCyclesEqualsRosterSize
+      numCyclesEqualsRosterSize and
+        positionZeroRotates
     }
   }
 
@@ -68,9 +74,15 @@ object RotationSuite extends SimpleIOSuite with Checkers:
         Rotation
           .courts(r)
 
+      val positionZeroRotates =
+        expect.same(CycleIndex(0), courts.getUnsafe(0).position1) and
+          expect.same(CycleIndex(0), courts.getUnsafe(1).position6) and
+          expect.same(CycleIndex(0), courts.getUnsafe(2).position5)
+
       val numCyclesEqualsRosterSize =
         expect.eql(10, courts.length)
 
-      numCyclesEqualsRosterSize
+      numCyclesEqualsRosterSize and
+        positionZeroRotates
     }
   }
