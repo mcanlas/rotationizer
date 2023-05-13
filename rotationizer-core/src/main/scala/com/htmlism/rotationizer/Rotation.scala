@@ -16,50 +16,30 @@ sealed trait Rotation:
   def positionRanks: NonEmptyVector[Int]
 
 object Rotation:
-  def cycles[A](ranks: NonEmptyVector[Int], indices: NonEmptyList[A]): NonEmptyVector[NonEmptyVector[A]] =
-    val xsSorted =
-      indices
-        .toNev
-        .zipWith(ranks)(_ -> _)
-        .sortBy(_._2)
-        .map(_._1)
+  def cycles(length: Int): NonEmptyVector[NonEmptyVector[CycleIndex]] =
+    val xs =
+      (0 until length).toVector
 
-    xsSorted
-      .zipWithIndex
-      .map(_._2)
-      .map(cycleFromOffset(xsSorted, _))
-
-  def cycleFromOffset[A](xs: NonEmptyVector[A], offset: Int): NonEmptyVector[A] =
-    val xsl =
-      xs.toList
-
-    val (left, right) =
-      xsl.splitAt(offset)
-
-    (left ::: right)
-      .toVector
+    xs
+      .map(cycleFromOffset(xs, _))
+      .map(_.map(CycleIndex.apply))
+      .map(NonEmptyVector.fromVectorUnsafe)
       .pipe(NonEmptyVector.fromVectorUnsafe)
+
+  def cycleFromOffset[A](xs: Vector[A], offset: Int): Vector[A] =
+    val (left, right) =
+      xs.splitAt(offset)
+
+    right concat left
 
   def courts(rotation: Rotation): NonEmptyVector[Court[CycleIndex]] =
     rotation match
       case Rotation6(xs, _) =>
-        val cycleIndices =
-          (0 until xs.length)
-            .map(CycleIndex(_))
-            .toList
-            .pipe(NonEmptyList.fromListUnsafe)
-
-        cycles(xs, cycleIndices)
+        cycles(6)
           .map(cy => Court(cy, Nil, Nil))
 
       case Rotation7(xs, _, mod) =>
-        val cycleIndices =
-          (0 until xs.length)
-            .map(CycleIndex(_))
-            .toList
-            .pipe(NonEmptyList.fromListUnsafe)
-
-        cycles(xs, cycleIndices)
+        cycles(7)
           .map { cy =>
             mod match
               case Rotation7.OffCourtModifier.OutOnServerSide =>
@@ -84,13 +64,7 @@ object Rotation:
           }
 
       case Rotation10(xs, _) =>
-        val cycleIndices =
-          (0 until xs.length)
-            .map(CycleIndex(_))
-            .toList
-            .pipe(NonEmptyList.fromListUnsafe)
-
-        cycles(xs, cycleIndices)
+        cycles(10)
           .map { cy =>
             val xs =
               cy.toVector
