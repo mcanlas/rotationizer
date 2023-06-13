@@ -10,24 +10,22 @@ import weaver.scalacheck._
 import com.htmlism.rotationizer.gen.given
 
 object RotationSuite extends SimpleIOSuite with Checkers:
-  pureTest("cycle maker 1") {
+  pureTest("cycle maker 1"):
     val xs =
       Rotation.cycles(1)
 
     expect.eql(1, xs.length) and
       expect.same(NonEmptyVector.one(CycleIndex(0)), xs.head)
-  }
 
-  pureTest("cycle maker 2") {
+  pureTest("cycle maker 2"):
     val xs =
       Rotation.cycles(2)
 
     expect.eql(2, xs.length) and
       expect.same(NonEmptyVector.of(CycleIndex(0), CycleIndex(1)), xs.getUnsafe(0)) and
       expect.same(NonEmptyVector.of(CycleIndex(1), CycleIndex(0)), xs.getUnsafe(1))
-  }
 
-  test("A rotation 6 generates 6 cycles") {
+  test("A rotation 6 generates 6 cycles"):
     forall { (r: Rotation.Rotation6) =>
       val courts =
         Rotation
@@ -47,9 +45,8 @@ object RotationSuite extends SimpleIOSuite with Checkers:
       numCyclesEqualsRosterSize and
         positionZeroRotates
     }
-  }
 
-  test("A rotation 7 generates 7 cycles") {
+  test("A rotation 7 generates 7 cycles"):
     forall { (r: Rotation.Rotation7) =>
       val courts =
         Rotation
@@ -66,9 +63,8 @@ object RotationSuite extends SimpleIOSuite with Checkers:
       numCyclesEqualsRosterSize and
         positionZeroRotates
     }
-  }
 
-  test("A rotation 10 generates 10 cycles") {
+  test("A rotation 10 generates 10 cycles"):
     forall { (r: Rotation.Rotation10) =>
       val courts =
         Rotation
@@ -85,4 +81,3 @@ object RotationSuite extends SimpleIOSuite with Checkers:
       numCyclesEqualsRosterSize and
         positionZeroRotates
     }
-  }
