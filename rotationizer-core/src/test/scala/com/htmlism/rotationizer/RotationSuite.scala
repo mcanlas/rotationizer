@@ -1,9 +1,6 @@
 package com.htmlism.rotationizer
 
-import scala.util.chaining._
-
 import cats.data._
-import cats.effect._
 import weaver._
 import weaver.scalacheck._
 
