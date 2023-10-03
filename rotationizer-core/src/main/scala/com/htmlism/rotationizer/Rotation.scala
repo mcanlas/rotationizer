@@ -1,7 +1,7 @@
 package com.htmlism.rotationizer
 
 import scala.util.Random
-import scala.util.chaining._
+import scala.util.chaining.*
 
 import cats.Show
 import cats.data.*

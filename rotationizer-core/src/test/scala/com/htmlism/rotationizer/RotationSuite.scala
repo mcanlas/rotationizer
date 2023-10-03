@@ -1,8 +1,8 @@
 package com.htmlism.rotationizer
 
-import cats.data._
-import weaver._
-import weaver.scalacheck._
+import cats.data.*
+import weaver.*
+import weaver.scalacheck.*
 
 import com.htmlism.rotationizer.gen.given
 

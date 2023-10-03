@@ -1,6 +1,6 @@
 package com.htmlism.rotationizer
 
-import weaver._
+import weaver.*
 
 object RandomInstanceSuite extends FunSuite:
   // TODO
