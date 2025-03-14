@@ -27,7 +27,7 @@ object ProjectPlugin extends AutoPlugin {
     implicit class ProjectOps(p: Project) {
       def withEffectMonad: Project =
         p
-          .settings(libraryDependencies += "org.typelevel" %% "cats-effect" % "3.5.7")
+          .settings(libraryDependencies += "org.typelevel" %% "cats-effect" % "3.6.0-RC2")
 
       def withTesting: Project = {
         val weaverVersion =
