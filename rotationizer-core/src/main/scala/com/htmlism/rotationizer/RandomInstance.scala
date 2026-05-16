@@ -10,7 +10,7 @@ trait RandomInstance[A]:
 object RandomInstance:
   def ranks(n: Int): Reader[Random, NonEmptyVector[Int]] =
     Reader { rng =>
-      NonEmptyVector.fromVectorUnsafe(Vector.fill(n)(rng.nextInt))
+      NonEmptyVector.fromVectorUnsafe(Vector.fill(n)(rng.nextInt()))
     }
 
   def oneOf[A](xs: A*): Reader[Random, A] =
