@@ -34,11 +34,11 @@ object Rotation:
 
   def courts(rotation: Rotation): NonEmptyVector[Court[CycleIndex]] =
     rotation match
-      case Rotation6(xs, _) =>
+      case Rotation6(_, _) =>
         cycles(6)
           .map(cy => Court(cy, Nil, Nil))
 
-      case Rotation7(xs, _, mod) =>
+      case Rotation7(_, _, mod) =>
         cycles(7)
           .map { cy =>
             mod match
@@ -63,7 +63,7 @@ object Rotation:
                 Court(onCourt, Nil, List(xs(4)))
           }
 
-      case Rotation10(xs, _) =>
+      case Rotation10(_, _) =>
         cycles(10)
           .map { cy =>
             val xs =
